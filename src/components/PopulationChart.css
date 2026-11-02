@@ -1,0 +1,35 @@
+.population-chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+  margin: 0;
+}
+
+.population-chart__plot {
+  width: 100%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.population-chart__canvas {
+  display: block;
+  width: 100%;
+  height: 220px;
+  cursor: crosshair;
+}
+
+@media (min-width: 900px) {
+  .population-chart__canvas {
+    height: 300px;
+  }
+}
+
+.population-chart__caption {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}

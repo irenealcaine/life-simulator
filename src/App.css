@@ -1,0 +1,121 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+}
+
+.app__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app__title {
+  margin: 0;
+  font-size: var(--text-2xl);
+  color: var(--color-text);
+}
+
+.app__description {
+  max-width: 60ch;
+  margin: var(--space-xs) 0 0;
+  color: var(--color-text-muted);
+}
+
+.app__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.app__status-dot {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--color-primary);
+  border-radius: 50%;
+}
+
+.app__status-dot--running {
+  background-color: var(--color-primary);
+}
+
+.app__status-hint {
+  padding-left: var(--space-sm);
+  border-left: 1px solid var(--color-border);
+}
+
+.app__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding: var(--space-lg) var(--space-md) var(--space-xl);
+}
+
+.app__workspace {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: flex-start;
+}
+
+.app__plate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.app__charts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 900px) {
+  .app__header {
+    padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+  }
+
+  .app__main {
+    padding: var(--space-lg) var(--space-lg) var(--space-2xl);
+  }
+
+  .app__workspace {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .app__plate {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .app__workspace > .control-panel {
+    flex: 0 0 360px;
+  }
+
+  .app__charts {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+}
+
+@media (min-width: 1200px) {
+  .app__plate {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-lg);
+  }
+}

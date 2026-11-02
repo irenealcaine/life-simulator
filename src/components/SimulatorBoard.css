@@ -1,0 +1,36 @@
+.simulator-board {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 720px;
+  margin: 0;
+}
+
+@media (min-width: 900px) {
+  .simulator-board {
+    max-width: min(720px, max(420px, calc(100dvh - 360px)));
+  }
+}
+
+.simulator-board__frame {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  outline: 1px solid var(--color-border);
+  outline-offset: 4px;
+  overflow: hidden;
+}
+
+.simulator-board__canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.simulator-board__caption {
+  margin: var(--space-xs) 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
