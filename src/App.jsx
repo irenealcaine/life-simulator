@@ -51,7 +51,7 @@ export default function App() {
           <span>{statusLabel}</span>
           {hasEnded ? (
             <span className="app__status-hint">
-              Pulsa Reiniciar para otra ejecución
+              Pulsa Empezar para otra ejecución
             </span>
           ) : null}
         </p>

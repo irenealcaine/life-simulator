@@ -46,11 +46,6 @@
   transform: translateY(1px);
 }
 
-.control-panel__button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .control-panel__button--primary {
   color: var(--color-bg);
   background-color: var(--color-primary);

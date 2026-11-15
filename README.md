@@ -17,8 +17,8 @@ Web simulator of a predator-prey ecosystem between foxes and rabbits, inspired b
 - Board legend: color and shape of every species (adults and newborns) and terrain state (grass vs eaten ground).
 - Animals are drawn with a thin dark halo so they stay readable over any terrain state.
 - Simulation controls: start, pause and restart, with keyboard shortcuts (space to start or pause, R to restart).
-- Simulation status in the header: running, paused or finished, with a hint to restart when the configured duration ends.
-- Settings editable from the web and applied on restart, grouped into basic and advanced sections with sliders for percentage values. Settings are saved in the browser and restored on the next visit:
+- Simulation status in the header: running, paused or finished, with a hint to run it again when the configured duration ends.
+- Settings editable from the web and applied when starting or restarting the simulation, grouped into basic and advanced sections with sliders for percentage values. Settings are saved in the browser and restored on the next visit:
   - Grid size (10 to 200 cells per side).
   - Initial number of rabbits.
   - Initial number of foxes.
@@ -81,7 +81,7 @@ pnpm install
 pnpm dev
 ```
 
-Start the simulation with the "Empezar" button and pause it with "Pausar" (space bar also toggles them). The "Reiniciar" button (or the R key) restarts the simulation applying the values set in the configuration form.
+Start the simulation with the "Empezar" button and pause it with "Pausar" (the space bar toggles them too). Starting always uses the values set in the configuration form: they are applied and the simulation is rebuilt only when they changed, so pausing and resuming keeps the current run. The "Reiniciar" button (or the R key) applies the form values too but leaves the simulation stopped at step 0.
 
 ## Other scripts
 

@@ -95,11 +95,7 @@ export default function useSimulation() {
     })
   }, [world])
 
-  const start = useCallback(() => {
-    if (!hasEnded) {
-      setIsRunning(true)
-    }
-  }, [hasEnded])
+  const start = useCallback(() => setIsRunning(true), [])
 
   const pause = useCallback(() => setIsRunning(false), [])
 

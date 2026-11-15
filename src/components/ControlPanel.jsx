@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import ControlField from "./ControlField"
 import { SETTINGS_LIMITS } from "../constants/simulationConfig"
 import { validateSettings } from "../utils/settings"
@@ -21,6 +21,23 @@ const initialForm = (settings) => ({
   gestationTurns: settings.gestationTurns,
 })
 
+const toSettings = (form) => ({
+  gridSize: Number(form.gridSize),
+  rabbitCount: Number(form.rabbitCount),
+  foxCount: Number(form.foxCount),
+  duration: Number(form.duration),
+  stepIntervalMs: Number(form.stepInterval) * 1000,
+  foodRegrowthTurns: Number(form.foodRegrowthTurns),
+  rabbitStarvationTurns: Number(form.rabbitStarvationTurns),
+  initialFoodCoverage: Number(form.initialFoodCoverage),
+  foxHuntSuccessRate: Number(form.foxHuntSuccessRate),
+  foxStarvationTurns: Number(form.foxStarvationTurns),
+  rabbitReproductionRate: Number(form.rabbitReproductionRate),
+  foxReproductionRate: Number(form.foxReproductionRate),
+  reproductionRadius: Number(form.reproductionRadius),
+  gestationTurns: Number(form.gestationTurns),
+})
+
 export default function ControlPanel({
   settings,
   isRunning,
@@ -32,6 +49,46 @@ export default function ControlPanel({
   const [form, setForm] = useState(() => initialForm(settings))
   const [error, setError] = useState("")
   const formRef = useRef(null)
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setForm((current) => ({ ...current, [name]: value }))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const nextSettings = toSettings(form)
+    const message = validateSettings(nextSettings)
+
+    if (message) {
+      setError(message)
+      return
+    }
+
+    setError("")
+    onApply(nextSettings)
+  }
+
+  const handleStart = useCallback(() => {
+    const nextSettings = toSettings(form)
+    const message = validateSettings(nextSettings)
+
+    if (message) {
+      setError(message)
+      return
+    }
+
+    setError("")
+
+    const hasChanges = Object.keys(nextSettings).some(
+      (key) => nextSettings[key] !== settings[key]
+    )
+    if (hasEnded || hasChanges) {
+      onApply(nextSettings)
+    }
+    onStart()
+  }, [form, settings, hasEnded, onApply, onStart])
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -47,13 +104,10 @@ export default function ControlPanel({
 
       if (event.key === " " || event.code === "Space") {
         event.preventDefault()
-        if (hasEnded) {
-          return
-        }
         if (isRunning) {
           onPause()
         } else {
-          onStart()
+          handleStart()
         }
       } else if (event.key === "r" || event.key === "R") {
         event.preventDefault()
@@ -63,43 +117,7 @@ export default function ControlPanel({
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [isRunning, hasEnded, onStart, onPause])
-
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setForm((current) => ({ ...current, [name]: value }))
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-
-    const nextSettings = {
-      gridSize: Number(form.gridSize),
-      rabbitCount: Number(form.rabbitCount),
-      foxCount: Number(form.foxCount),
-      duration: Number(form.duration),
-      stepIntervalMs: Number(form.stepInterval) * 1000,
-      foodRegrowthTurns: Number(form.foodRegrowthTurns),
-      rabbitStarvationTurns: Number(form.rabbitStarvationTurns),
-      initialFoodCoverage: Number(form.initialFoodCoverage),
-      foxHuntSuccessRate: Number(form.foxHuntSuccessRate),
-      foxStarvationTurns: Number(form.foxStarvationTurns),
-      rabbitReproductionRate: Number(form.rabbitReproductionRate),
-      foxReproductionRate: Number(form.foxReproductionRate),
-      reproductionRadius: Number(form.reproductionRadius),
-      gestationTurns: Number(form.gestationTurns),
-    }
-
-    const message = validateSettings(nextSettings)
-
-    if (message) {
-      setError(message)
-      return
-    }
-
-    setError("")
-    onApply(nextSettings)
-  }
+  }, [isRunning, onPause, handleStart])
 
   return (
     <aside className="control-panel">
@@ -124,13 +142,8 @@ export default function ControlPanel({
             <button
               type="button"
               className="control-panel__button control-panel__button--primary"
-              onClick={onStart}
-              disabled={hasEnded}
-              title={
-                hasEnded
-                  ? "La simulación ha finalizado. Pulsa Reiniciar para otra ejecución"
-                  : "Espacio"
-              }
+              onClick={handleStart}
+              title="Espacio"
             >
               Empezar
             </button>
